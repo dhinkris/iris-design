@@ -1,0 +1,31 @@
+{
+  "name": "iris-design",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^1.2.0",
+    "@material-ui/icons": "^1.1.0",
+    "dat.gui": "^0.7.2",
+    "dicom-parser": "1.7.3",
+    "jpeg-lossless-decoder-js": "1.2.3",
+    "math-float32-to-binary-string": "^1.0.0",
+    "nifti-reader-js": "v0.5.3",
+    "nrrd-js": "^0.2.1",
+    "pako": "1.0.1",
+    "react": "^16.4.0",
+    "react-dat-gui": "^1.0.2",
+    "react-dom": "^16.4.0",
+    "react-load-script": "0.0.6",
+    "react-request": "^3.0.1",
+    "react-scripts": "1.1.4",
+    "stats-js": "^1.0.0-alpha1",
+    "three": "0.92.0",
+    "xtk": "^10.0.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
