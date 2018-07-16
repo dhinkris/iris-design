@@ -28,22 +28,48 @@ import DraftsIcon from '@material-ui/icons/Drafts';
 import SendIcon from '@material-ui/icons/Send';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import ExpandRight from '@material-ui/icons/KeyboardArrowRight'
+import ExpandRight from '@material-ui/icons/KeyboardArrowRight';
+import AddIcon from '@material-ui/icons/Add';
 
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+
+import SplitVolumes from '../data/splitVolumeFields'
 import MenuItems from '../data/sideBar';
-// import Panel from '../panel/Panel';
 
-// import TableExampleSimple from '../listdirectory/ListFiles';
-// import RenderImage from '../renderImage/RenderImage';
-// import SplitVolumes from '../algorithms/SplitVolumes';
+import addComponent from '../controller/addComponent';
 
 const drawerWidth = 240;
 
+const CustomTableCell = withStyles(theme => ({
+    head: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
+    },
+    body: {
+        fontSize: 14,
+    },
+}))(TableCell);
+
 const styles = theme => ({
+
     root: {
         flexGrow: 1,
         zIndex: 1,
         display: 'flex',
+    },
+    content: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.default,
+        marginLeft: 240,
+        paddingTop:theme.spacing.unit * 2,
+        padding: theme.spacing.unit * 2,
+        minWidth: 0, // So the Typography noWrap works
+        position: 'relative'
     },
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
@@ -51,13 +77,6 @@ const styles = theme => ({
     drawerPaper: {
         position: 'fixed',
         width: drawerWidth,
-    },
-    content: {
-        flexGrow: 1,
-        backgroundColor: theme.palette.background.default,
-        marginLeft: 240,
-        padding: theme.spacing.unit * 2,
-        minWidth: 0, // So the Typography noWrap works
     },
     menuButton: {
         marginLeft: -12,
@@ -71,6 +90,10 @@ class LeftBar extends React.Component {
         super(props);
         this.state = {
             showComponent: false,
+            subjectList:[],
+            isLoaded: false,
+            error: null,
+            LoadSplitVolumes: false
         };
         this._onButtonClick = this._onButtonClick.bind(this);
     }
@@ -85,13 +108,31 @@ class LeftBar extends React.Component {
     handleClickAlgorithms = () => {
         this.setState({ openAlgo: !this.state.openAlgo });
     };
-
+    handleListFiles = () => {
+        fetch('http://localhost:3005/api/subjectslist')
+            .then((res) => res.json())
+            .then((response) =>{
+                this.setState({
+                    isLoaded: true,
+                    subjectList: response
+                })
+            })
+    }
     handleClickPipeline = () => {
         this.setState({ openPipe: !this.state.openPipe });
     };
 
     handleSplitVolumes = () => {
-        console.log("HandleSplitVolumes")
+        this.setState({
+            LoadSplitVolumes: true
+        })
+        fetch('http://localhost:3005/api/subjectslist')
+            .then((res) => res.json())
+            .then((response) =>{
+                this.setState({
+                    subjectList: response
+                })
+            })
     };
 
     handleSVRRecon = () => {
@@ -104,17 +145,18 @@ class LeftBar extends React.Component {
 
     render(){
         const { classes } = this.props
+        const { subjectList, isLoaded, LoadSplitVolumes } = this.state
+        console.log(isLoaded)
         return(
             <div className={classes.root}>
-                <AppBar className={classes.appBar}>
-                    <Toolbar>
-                        <Typography variant="title" color="inherit" noWrap>
-                            IRIS
-                        </Typography>
-                        <Toolbar>
-                        </Toolbar>
-                    </Toolbar>
-                </AppBar>
+                {/*<AppBar className={classes.appBar}>*/}
+                    {/*<Toolbar>*/}
+                        {/*<Typography variant="title" color="inherit" noWrap>*/}
+                            {/*IRIS*/}
+                        {/*</Typography>*/}
+                        {/*<Toolbar></Toolbar>*/}
+                    {/*</Toolbar>*/}
+                {/*</AppBar>*/}
                 <Drawer
                     variant="permanent"
                     classes={{
@@ -124,6 +166,12 @@ class LeftBar extends React.Component {
                     <div className={classes.toolbar} />
                     <div className={classes.root}>
                         <List component="nav" subheader={<ListSubheader component="div">Return to Home</ListSubheader>}>
+                            <ListItem button>
+                                <ListItemIcon>
+                                    <DraftsIcon />
+                                </ListItemIcon>
+                                <ListItemText inset primary="Explore Files" button onClick={this.handleListFiles} />
+                            </ListItem>
                             <ListItem button onClick={this.handleClickAlgorithms}>
                                 <ListItemIcon>
                                     <AlgoIcon />
@@ -137,7 +185,7 @@ class LeftBar extends React.Component {
                                         <ListItemIcon>
                                             <SplitVolIcon />
                                         </ListItemIcon>
-                                        <ListItemText inset primary="SplitVolumes" button onClick={this.handleSplitVolumes}/>
+                                        <ListItemText inset primary="SplitVolumes" button onClick={this.handleSplitVolumes} />
                                     </ListItem>
                                     <ListItem button className={classes.nested}>
                                         <ListItemIcon>
@@ -185,18 +233,6 @@ class LeftBar extends React.Component {
                             </Collapse>
                             <ListItem button>
                                 <ListItemIcon>
-                                    <SendIcon />
-                                </ListItemIcon>
-                                <ListItemText inset primary="Explore Files" />
-                            </ListItem>
-                            <ListItem button>
-                                <ListItemIcon>
-                                    <DraftsIcon />
-                                </ListItemIcon>
-                                <ListItemText inset primary="Submit a Job" />
-                            </ListItem>
-                            <ListItem button>
-                                <ListItemIcon>
                                     <DraftsIcon />
                                 </ListItemIcon>
                                 <ListItemText inset primary="Results" />
@@ -212,7 +248,38 @@ class LeftBar extends React.Component {
                     <Divider/>
                     {/*<List>{otherMailFolderListItems}</List>*/}
                 </Drawer>
-                {/*<RenderImage/>*/}
+                {this.state.isLoaded ? <main className={classes.content}>
+                    <Paper className={classes.root}>
+                        <Table className={classes.table}>
+                            <TableHead>
+                                <TableRow>
+                                    <CustomTableCell>Subject Name</CustomTableCell>
+                                    <CustomTableCell numeric>Scan no</CustomTableCell>
+                                    <CustomTableCell numeric>Group</CustomTableCell>
+                                    <CustomTableCell numeric>GA</CustomTableCell>
+                                    <CustomTableCell numeric>Study Group</CustomTableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {subjectList.map((subject, index) => {
+                                    return (
+                                        <TableRow className={classes.row} key={index}>
+                                            <CustomTableCell component="th" scope="row">
+                                                {subject.sname}
+                                            </CustomTableCell>
+                                            <CustomTableCell numeric>{subject.scan}</CustomTableCell>
+                                            <CustomTableCell numeric>{subject.group}</CustomTableCell>
+                                            <CustomTableCell numeric>{subject.GA}</CustomTableCell>
+                                            <CustomTableCell numeric>{subject.study_group}</CustomTableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                    </Paper>
+                </main> :null}
+                {this.state.LoadSplitVolumes ? <main className={classes.content}><SplitVolumes /></main>: null}
+
             </div>
             )
     }
