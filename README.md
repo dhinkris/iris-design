@@ -1,1 +1,1 @@
-![UI Visualization][ui_image_visualization.png]
+![UI Visualization](ui_image_visualization.png)
