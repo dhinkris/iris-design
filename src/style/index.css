@@ -1,0 +1,15 @@
+.login-form {
+    max-width: 300px;
+}
+.login-form-forgot {
+    display: inline-block;
+    text-align: center;
+}
+.login-form-button {
+    width: 100%;
+}
+.ant-layout-content{
+    flex: auto;
+    min-height: 0;
+    padding:  24px;
+}
