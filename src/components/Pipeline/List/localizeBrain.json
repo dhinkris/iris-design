@@ -1,0 +1,43 @@
+{ 
+    "name":"LocalizeBrain",
+    "command-line": "/data/mril/users/all/mrdata/research/processed/CNMC/chd_r01/fetal/wip/dhinesh/fetal-brain-pipeline/scripts/v1.0/localizemask.sh  [IN_FILE] [OUT_FILE]",
+    "input":[
+        {
+            "command-line-flag": "--in_file",
+            "name": "In file",
+            "optional": false,
+            "list": false,
+            "command-line-key": "[IN_FILE]",
+            "type": "File",
+            "id": "input_in_file",
+            "description": "An existing file name. Input file."
+        },
+        {
+            "command-line-flag": "--out_file",
+            "name": "Out mask file",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[OUT_FILE]",
+            "type": "String",
+            "id": "input_out_file",
+            "description": "A file name. Localized output file."
+        }
+    ],
+    "output-files": [
+        {
+            "path-template": "[OUT_FILE]",
+            "optional": true,
+            "type": "File",
+            "name": "Out file",
+            "id": "output_out_file",
+            "prefix": "mask"
+        }
+    ],
+    "tool-version":"",
+    "schema-version":"1.0",
+    "description":"Localize brain",
+    "inputModality": "T2",
+    "outputModality": "T2",
+    "isGPUrequired": false,
+    "type": "algorithm"
+}

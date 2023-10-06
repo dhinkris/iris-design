@@ -1,0 +1,63 @@
+{ 
+    "name":"Fetal-SegmentBrain-9-labels",
+    "command-line": "/data/mril/users/all/mrdata/research/processed/CNMC/chd_r01/fetal/wip/dhinesh/dl_segmentation/fetal_brain_segmentation/fetal_brain_segmentation.sh [IN_FILE] [OUT_FILE] [TYPE]",
+    "input":[
+        {
+            "command-line-flag": "--in_file",
+            "name": "In file",
+            "optional": false,
+            "list": false,
+            "command-line-key": "[IN_FILE]",
+            "type": "File",
+            "id": "input_in_file",
+            "description": "An existing file name. Input file."
+        },
+        {
+            "command-line-flag": "--out_file",
+            "name": "Out mask file",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[OUT_FILE]",
+            "type": "String",
+            "id": "input_out_file",
+            "description": "A file name. Segmented output file."
+        },
+        {
+            "command-line-flag": "--out_dir",
+            "name": "Out dir",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[OUT_DIR]",
+            "type": "String",
+            "id": "input_out_file",
+            "description": "Output directory"
+        },
+        {
+            "command-line-flag": "--config",
+            "name": "Configuration",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[CONFIG]",
+            "type": "String",
+            "id": "input_config",
+            "description": "Configuration"
+        }
+    ],
+    "output-files": [
+        {
+            "path-template": "[OUT_FILE]",
+            "optional": true,
+            "type": "File",
+            "name": "Out file",
+            "id": "output_out_file",
+            "prefix": "tissue_labels_9"
+        }
+    ],
+    "tool-version":"",
+    "schema-version":"1.0",
+    "description":"Segment brain",
+    "inputModality": "T2",
+    "outputModality": "T2",
+    "isGPUrequired": true,
+    "type": "algorithm"
+}

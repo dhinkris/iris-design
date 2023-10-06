@@ -1,0 +1,463 @@
+{
+    "input": [
+        {
+            "command-line-flag": "--output",
+            "name": "Ouput",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[OUT_FILE]",
+            "type": "String",
+            "id": "input_output",
+            "description": "Name for the reconstructed volume. Nifti or Analyze format."
+        },
+        {
+            "command-line-flag": "--mask",
+            "name": "mask",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[mask]",
+            "type": "File",
+            "id": "input_mask",
+            "description": "Binary mask to define the region of interest. Nifti or Analyze format."
+        },
+        {
+            "command-line-flag": "--input",
+            "name": "input",
+            "optional": true,
+            "list": true,
+            "command-line-key": "[input]",
+            "type": "File",
+            "id": "input_input",
+            "description": "[stack_1] .. [stack_N]  The input stacks. Nifti or Analyze format."
+        },
+        {
+            "command-line-flag": "--transformation",
+            "name": "transformation",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[transformation]",
+            "type": "File",
+            "id": "input_transformation",
+            "description": "The transformations of the input stack to template in 'dof' format used in IRTK. Only rough alignment with correct orienation and some overlap is needed. Use 'id' for an identity transformation for at least one stack. The first stack with 'id' transformation  will be resampled as template."
+        },
+        {
+            "command-line-flag": "--thickness",
+            "name": "thickness",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[thickness]",
+            "type": "Number",
+            "id": "input_thickness",
+            "description": "[th_1] .. [th_N] Give slice thickness.[Default: twice voxel size in z direction]"
+        },
+        {
+            "command-line-flag": "--packages",
+            "name": "packages",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[packages]",
+            "type": "Number",
+            "id": "input_packages",
+            "description": "Give number of packages used during acquisition for each stack. The stacks will be split into packages during registration iteration 1 and then into odd and even slices within each package during registration iteration 2. The method will  then continue with slice to  volume approach. [Default: slice to volume registration only]"
+        },
+        {
+            "command-line-flag": "--iterations",
+            "name": "iterations",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[iterations]",
+            "type": "Number",
+            "id": "input_iterations",
+            "description": "Number of registration-reconstruction iterations. [Default:  (=4)]"
+        },
+        {
+            "command-line-flag": "--sigma",
+            "name": "sigma",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[sigma]",
+            "type": "Number",
+            "id": "input_sigma",
+            "description": "Stdev for bias field. [Default: 12mm]"
+        },
+        {
+            "command-line-flag": "--resolution",
+            "name": "resolution",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[resolution]",
+            "type": "Number",
+            "id": "input_resolution",
+            "description": "Isotropic resolution of the volume. [Default: 0.75mm]"
+        },
+        {
+            "command-line-flag": "--multires",
+            "name": "multires",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[multires]",
+            "type": "Number",
+            "id": "input_multires",
+            "description": "Multiresolution smooting with given number of levels. [Default: 3]"
+        },
+        {
+            "command-line-flag": "--average",
+            "name": "average",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[average]",
+            "type": "Number",
+            "id": "input_average",
+            "description": "Average intensity value for stacks [Default: 700]"
+        },
+        {
+            "command-line-flag": "--delta",
+            "name": "delta",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[delta]",
+            "type": "Number",
+            "id": "input_delta",
+            "description": "Parameter to define what is an edge. [Default: 150]"
+        },
+        {
+            "command-line-flag": "--lambda",
+            "name": "lambda",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[lambda]",
+            "type": "Number",
+            "id": "input_lambda",
+            "description": "Smoothing parameter. [Default: 0.02]"
+        },
+        {
+            "command-line-flag": "--lastIterLambda",
+            "name": "lastIterLambda",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[lastIterLambda]",
+            "type": "Number",
+            "id": "input_lastIterLambda",
+            "description": "Smoothing parameter for last iteration. [Default: 0.01]"
+        },
+        {
+            "command-line-flag": "--smooth_mask",
+            "name": "smooth_mask",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[smooth_mask]",
+            "type": "Number",
+            "id": "input_smooth_mask",
+            "description": "Smooth the mask to reduce artefacts of manual segmentation. [Default: 4mm]"
+        },
+        {
+            "command-line-flag": "--global_bias_correction",
+            "name": "global_bias_correction",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[global_bias_correction]",
+            "type": "Number",
+            "id": "input_global_bias_correction",
+            "description": "Correct the bias in reconstructed image against previous estimation."
+        },
+        {
+            "command-line-flag": "--low_intensity_cutoff",
+            "name": "low_intensity_cutoff",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[low_intensity_cutoff]",
+            "type": "Number",
+            "id": "input_low_intensity_cutoff",
+            "description": "Lower intensity threshold for inclusion of voxels in global bias correction."
+        },
+        {
+            "command-line-flag": "--force_exclude",
+            "name": "force_exclude",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[force_exclude]",
+            "type": "Number",
+            "id": "input_force_exclude",
+            "description": "force_exclude [number of slices] [ind1]  ... [indN]  Force exclusion of slices with these indices."
+        },
+        {
+            "command-line-flag": "--no_intensity_matching",
+            "name": "no_intensity_matching",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[no_intensity_matching]",
+            "type": "Boolean",
+            "id": "input_no_intensity_matching ",
+            "description": "Switch off intensity matching."
+        },
+        {
+            "command-line-flag": "--log_prefix ",
+            "name": "log_prefix ",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[log_prefix ]",
+            "type": "File",
+            "id": "input_log_prefix ",
+            "description": "Prefix for the log file."
+        },
+        {
+            "command-line-flag": "--debug",
+            "name": "debug",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[debug]",
+            "type": "Number",
+            "id": "input_debug (=0)",
+            "description": "Debug mode - save intermediate results."
+        },
+        {
+            "command-line-flag": "--debug_gpu",
+            "name": "debug_gpu",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[debug_gpu]",
+            "type": "Boolean",
+            "id": "input_debug_gpu",
+            "description": "Debug only GPU results."
+        },
+        {
+            "command-line-flag": "--rec_iterations_first",
+            "name": "rec_iterations_first",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[rec_iterations_first]",
+            "type": "Number",
+            "id": "input_rec_iterations_first",
+            "description": "Set number of superresolution iterations"
+        },
+        {
+            "command-line-flag": "--rec_iterations_last",
+            "name": "rec_iterations_last",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[rec_iterations_last]",
+            "type": "Number",
+            "id": "input_rec_iterations_last",
+            "description": "Set number of superresolution iterations for the last iteration"
+        },
+        {
+            "command-line-flag": "--num_stacks_tuner",
+            "name": "num_stacks_tuner",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[num_stacks_tuner]",
+            "type": "Number",
+            "id": "input_num_stacks_tuner",
+            "description": "Set number of input stacks that are really used (for tuner evaluation, use only first x)"
+        },
+        {
+            "command-line-flag": "--no_log",
+            "name": "no_log",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[no_log]",
+            "type": "Number",
+            "id": "input_no_log",
+            "description": "Do not redirect cout and cerr to log files."
+        },
+        {
+            "command-line-flag": "--devices",
+            "name": "devices",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[devices]",
+            "type": "Number",
+            "id": "input_devices",
+            "description": "Select the CP > 3.0 GPUs on which the reconstruction should be executed. Default: all devices > CP 3.0"
+        },
+        {
+            "command-line-flag": "--tfolder",
+            "name": "tfolder",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[tfolder]",
+            "type": "String",
+            "id": "input_tfolder",
+            "description": "[folder] Use existing slice-to-volume transformations to initialize the reconstruction."
+        },
+        {
+            "command-line-flag": "--sfolder",
+            "name": "sfolder",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[sfolder]",
+            "type": "String",
+            "id": "input_sfolder",
+            "description": "[folder] Use existing registered slices and replace loaded ones (have to be equally many as loaded from stacks)."
+        },
+        {
+            "command-line-flag": "--referenceVolume",
+            "name": "referenceVolume",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[referenceVolume]",
+            "type": "File",
+            "id": "input_referenceVolume ",
+            "description": "Name for an optional reference volume. Will be used as inital reconstruction."
+        },
+        {
+            "command-line-flag": "--T1PackageSize",
+            "name": "T1PackageSize",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[T1PackageSize]",
+            "type": "Number",
+            "id": "input_T1PackageSize",
+            "description": "is a test if you can register T1 to T2 using NMI and only one iteration"
+        },
+        {
+            "command-line-flag": "--useCPU",
+            "name": "useCPU",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[useCPU]",
+            "type": "Boolean",
+            "id": "input_useCPU",
+            "description": "use CPU for reconstruction and registration; performs superresolution androbust statistics on CPU. Default is usingthe GPU"
+        },
+        {
+            "command-line-flag": "--useCPUReg ",
+            "name": "useCPUReg ",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[useCPUReg ]",
+            "type": "Boolean",
+            "id": "input_useCPUReg ",
+            "description": "use CPU for more flexible CPU registration; performs superresolution androbust statistics on GPU. [default, best result]"
+        },
+        {
+            "command-line-flag": "--useGPUReg",
+            "name": "useGPUReg",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[useGPUReg]",
+            "type": "Boolean",
+            "id": "input_useGPUReg",
+            "description": "use faster but less accurate and flexible GPU registration; performs superresolution and robust statistics on GPU."
+        },
+        {
+            "command-line-flag": "--useAutoTemplate",
+            "name": "useAutoTemplate",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[useAutoTemplate]",
+            "type": "Boolean",
+            "id": "input_useAutoTemplate",
+            "description": "select 3D registration template stack automatically with matrix rank method."
+        },
+        {
+            "command-line-flag": "--patchSize",
+            "name": "patchSize",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[patchSize]",
+            "type": "Number",
+            "id": "input_patchSize",
+            "description": "defines the size of the 2D patches for  patchBased reconstruction"
+        },
+        {
+            "command-line-flag": "--patchStride",
+            "name": "patchStride",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[patchStride]",
+            "type": "Number",
+            "id": "input_patchStride",
+            "description": "defines the stride of the 2D patches for patchBased reconstruction"
+        },
+        {
+            "command-line-flag": "--disableBiasCorrection",
+            "name": "disableBiasCorrection",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[disableBiasCorrection]",
+            "type": "Boolean",
+            "id": "input_disableBiasCorrection",
+            "description": "disable bias field correction for cases with little or no bias field inhomogenities (makes it faster but less reliable for stron intensity bias)"
+        },
+        {
+            "command-line-flag": "--patchBased",
+            "name": "patchBased",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[patchBased]",
+            "type": "Boolean",
+            "id": "input_patchBased",
+            "description": "activate experimentl patch-based reconstruction."
+        },
+        {
+            "command-line-flag": "--superpixelBased ",
+            "name": "superpixelBased ",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[superpixelBased]",
+            "type": "Boolean",
+            "id": "input_superpixelBased ",
+            "description": "activate experimentl superpixel-based reconstruction."
+        },
+        {
+            "command-line-flag": "-s",
+            "name": "s",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[s]",
+            "type": "Number",
+            "id": "input_s",
+            "description": "[noLabels] Number of superpixels"
+        },
+        {
+            "command-line-flag": "--manualMask",
+            "name": "manualMask",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[manualMask]",
+            "type": "File",
+            "id": "input_manualMask",
+            "description": "Binary manual accurate mask to define a region accuratly slice by slice. It is required that the provided manual mask fits the *first* of the provided image stacks in -i <stacks *1*...N>! Nifti or Analyze format."
+        },
+        {
+            "command-line-flag": "--useNMI",
+            "name": "useNMI",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[useNMI]",
+            "type": "Boolean",
+            "id": "input_useNMI",
+            "description": "use Normalized Mutual Information for slice to volume registration."
+        },
+        {
+            "command-line-flag": "--saveSliceTransformations",
+            "name": "saveSliceTransformations",
+            "optional": true,
+            "list": false,
+            "command-line-key": "[saveSliceTransformations]",
+            "type": "Boolean",
+            "id": "input_saveSliceTransformations",
+            "description": "Save slice transformations and pixel to voxel mapping. Be aware that the index refers to the stacks cropped with the provided mask (not the original stack slice index)."
+        }
+    ],
+    "output-files": [
+        {
+            "path-template": "[OUT_FILE]",
+            "optional": true,
+            "type": "File",
+            "name": "Out file",
+            "id": "output_out_file",
+            "suffix": "recon"
+        }
+    ],
+    "command-line": "/cm/shared/apps/fetalReconstruction/bin/SVRreconstructionGPU [OUT_FILE] [mask] [input] [transformation] [thickness] [packages] [iterations] [sigma] [resolution] [multires] [average] [delta] [lambda] [lastIterLambda] [smooth_mask] [global_bias_correction] [low_intensity_cutoff] [force_exclude] [no_intensity_matching] [log_prefix ] [debug] [debug_gpu] [rec_iterations_first] [rec_iterations_last] [num_stacks_tuner] [no_log] [devices] [tfolder] [sfolder] [referenceVolume] [T1PackageSize] [useCPU] [useCPUReg ] [useGPUReg] [useAutoTemplate] [patchSize] [patchStride] [disableBiasCorrection] [patchBased] [superpixelBased] [s] [manualMask] [useNMI] [saveSliceTransformations]",
+    "name": "Slice-volumeReconstruction",
+    "tool-version":"",
+    "schema-version":"1.0",
+    "description":"Application to perform reconstruction of volumetric MRI from thick slices.",
+    "inputModality": "T2",
+    "outputModality": "T2",
+    "isGPUrequired": true,
+    "type": "algorithm"
+}
